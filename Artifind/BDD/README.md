@@ -1,1 +1,0 @@
-"# arti_find" 
