@@ -5,10 +5,12 @@ import models
 from database import engine, SessionLocal
 from sqlalchemy.orm import Session
 import auth
+import moderator
 from auth import get_current_user
 from starlette.middleware.sessions import SessionMiddleware
 app = FastAPI()
 app.include_router(auth.router)
+app.include_router(moderator.router)
 
 models.Base.metadata.create_all(bind=engine)
 

@@ -1,25 +1,21 @@
 from datetime import timedelta, datetime
 from typing import Annotated
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
 from starlette import status
 from database import SessionLocal
-from models import Admin, Moderator, users
+from models import  Moderator
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer
-from jose import jwt, JWTError
-import secrets
-from fastapi.responses import HTMLResponse
 from dotenv import dotenv_values
-from fastapi.templating import Jinja2Templates
-from gen_email import send_emaill
+
 
 
 
 router = APIRouter(
-    prefix='/adm',
-    tags=['adm']
+    prefix='/moderator',
+    tags=['moderator']
 )
 
 SECRET_KEY = '4567hj876yh99ik442gghn88ad098ujk12adf45avge7789hj90kbdd34dcg12hte567sw789'  #for JWT token encoding
@@ -37,15 +33,15 @@ oauth2_bearer = OAuth2PasswordBearer(tokenUrl='auth/token')
 
 class CreateUserRequest(BaseModel):
     email: EmailStr
-    first_name: str
-    last_name: str
+    nom: str
+    prenom: str
     password: str
 
 
 create_user_request = CreateUserRequest(
     email="user@example.com",
-    first_name="John",
-    last_name="Doe",
+    nom="maria",
+    prenom="bono",
     password="securepassword",
 
 )
@@ -87,8 +83,8 @@ async def create_admin_user(
 
     create_user_model = Moderator(
         email=create_user_request.email,
-        first_name=create_user_request.first_name,
-        last_name=create_user_request.last_name,
+        nom=create_user_request.nom,
+        prenom=create_user_request.prenom,
         hashed_password=bcrypt_context.hash(create_user_request.password),
     )
 
@@ -101,7 +97,7 @@ async def create_admin_user(
 
 
 #-------------------------------------------------------------------------------------------------------------#
-#endpoint de suppression d;utilisateur
+#endpoint de suppression d'utilisateur
 @router.delete("/delete-user/{email}", response_model=dict)
 async def delete_user(email: str, db: Session = Depends(get_db)):
     
@@ -138,10 +134,10 @@ async def modify_user(email: str, new_user_data: CreateUserRequest, db: Session 
     # Update user information if provided in the request
     if new_user_data.email:
         user_to_modify.email = new_user_data.email
-    if new_user_data.first_name:
-        user_to_modify.first_name = new_user_data.first_name
-    if new_user_data.last_name:
-        user_to_modify.last_name = new_user_data.last_name
+    if new_user_data.nom:
+        user_to_modify.nom = new_user_data.nom
+    if new_user_data.prenom:
+        user_to_modify.prenom = new_user_data.prenom
     if new_user_data.password:
         user_to_modify.hashed_password = bcrypt_context.hash(new_user_data.password)
     

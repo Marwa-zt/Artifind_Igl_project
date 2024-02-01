@@ -37,18 +37,19 @@ oauth2_bearer = OAuth2PasswordBearer(tokenUrl='auth/token')
 
 class CreateUserRequest(BaseModel):
     email: EmailStr
-    first_name: str
-    last_name: str
+    nom: str
+    prenom: str
     password: str
 
 
 create_user_request = CreateUserRequest(
     email="user@example.com",
-    first_name="John",
-    last_name="Doe",
+    nom="John",
+    prenom="Doe",
     password="securepassword",
 
 )
+
 
 
 class Token(BaseModel):
@@ -83,8 +84,8 @@ async def create_user(db: db_dependency, create_user_request: CreateUserRequest)
 
     create_user_model = users(
         email=create_user_request.email,
-        first_name=create_user_request.first_name,
-        last_name=create_user_request.last_name,
+        nom=create_user_request.nom,
+        prenom=create_user_request.prenom,
         hashed_password=bcrypt_context.hash(create_user_request.password),
         verification_token=verification_token,
     )
@@ -97,7 +98,7 @@ async def create_user(db: db_dependency, create_user_request: CreateUserRequest)
     # Send email verification
     subject = "Account Creation Confirmation"
     recipients = [create_user_model.email]
-    body = f"Hello {create_user_model.first_name},\n\nYour account has been successfully created.\n\n"
+    body = f"Hello {create_user_model.nom},\n\nYour account has been successfully created.\n\n"
     body += f"Please click the following link to verify your email address: {verification_link}\n\nThank you!"
 
     #await send_emaill(subject, recipients, body)
@@ -114,7 +115,7 @@ async def email_verification(request: Request, token: str):
         user.is_verified = True
         await user.save()
         return templates.TemplateResponse("verificatiom.html",
-                                         { "request": request,"username": user.first_name})
+                                         { "request": request,"username": user.nom})
 
     raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -149,7 +150,7 @@ async def login_for_access_token(
             detail="Invalid credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    token = create_access_token(user.email, user.userid, timedelta(minutes=20))
+    token = create_access_token(user.email, user.id, timedelta(minutes=20))
     return {"access_token": token, "token_type": "bearer"}
 
 #------------------------------------------------------------------------------------------------------------#
@@ -184,88 +185,3 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
          print(f"JWT Error: {e}")
          raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Could not validate user')
     
-#-------------------------------------------------------------------------------------------------------#
-
- #permettre aux admin de creer un moderateur
-@router.post("/admin/create_user", status_code=status.HTTP_201_CREATED)
-async def create_admin_user(
-    db: db_dependency,
-    create_user_request: CreateUserRequest,
-):
-    
-    # Check if the email already exists
-    existing_user = db.query(Moderator).filter(Moderator.email == create_user_request.email).first()
-
-    if existing_user:
-        raise HTTPException(status_code=400, detail="Email already registered")
-
-   
-
-    create_user_model = Moderator(
-        email=create_user_request.email,
-        first_name=create_user_request.first_name,
-        last_name=create_user_request.last_name,
-        hashed_password=bcrypt_context.hash(create_user_request.password),
-    )
-
-    db.add(create_user_model)
-    db.commit()
-    db.refresh(create_user_model)
-
-   
-    return create_user_model
-
-
-#-------------------------------------------------------------------------------------------------------------#
-#endpoint de suppression d;utilisateur
-@router.delete("/delete-user/{email}", response_model=dict)
-async def delete_user(email: str, db: Session = Depends(get_db)):
-    
-
-    # Find the user by email
-    user_to_delete = db.query(Moderator).filter(Moderator.email == email).first()
-
-    # Check if the user exists
-    if not user_to_delete:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
-
-    
-    # Delete the user
-    db.delete(user_to_delete)
-    db.commit()
-
-    return {"message": "Moderator deleted successfully"}
-
-
-
-#====================================================================================================================#
-#endpoint de modiification d'un moderateur
-@router.put("/modify-user/{email}", response_model=dict)
-async def modify_user(email: str, new_user_data: CreateUserRequest, db: Session = Depends(get_db)):
-
-
-    # Find the user by email
-    user_to_modify = db.query(Moderator).filter(Moderator.email == email).first()
-
-    # Check if the user exists
-    if not user_to_modify:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
-
-    # Update user information if provided in the request
-    if new_user_data.email:
-        user_to_modify.email = new_user_data.email
-    if new_user_data.first_name:
-        user_to_modify.first_name = new_user_data.first_name
-    if new_user_data.last_name:
-        user_to_modify.last_name = new_user_data.last_name
-    if new_user_data.password:
-        user_to_modify.hashed_password = bcrypt_context.hash(new_user_data.password)
-    
-
-    # Commit changes to the database
-    db.commit()
-
-    return {"message": "User information modified successfully"}
-
-
-#---------------------------------------------------------------------------------------------------------------------#
