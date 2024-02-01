@@ -1,0 +1,220 @@
+.title {
+  margin-top: 20px;
+  margin-bottom: 60px;
+  text-align: center;
+  color: #ffffff;
+}
+
+/* Inside YourStyles.css */
+
+/* Styling for the button */
+.upload-button {
+  width: 220px;
+  height: 54px;
+  padding: 0 30px;
+  border-radius: 10px;
+  background-color: #D5DD18;
+  color: #000000;
+  border: none;
+  /* Text color */
+  font-size: 24px;
+  font-weight: bold;
+  /* Adjust font size as needed */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.upload-button:hover {
+  background-color: #b6c237;
+  /* Change to the desired color when hovered */
+}
+
+.upload-icon {
+  margin-right: 10px;
+  /* Adjust spacing between icon and text as needed */
+}
+
+
+.upload-input {
+  width: 531px;
+  height: 54px;
+  padding: 0 30px;
+  border-radius: 40px;
+  background-color: #ffffff;
+  color: #000000;
+  /* Text color */
+  font-size: 18px;
+  /* Adjust font size as needed */
+  font-weight: light;
+  /* Adjust font weight as needed */
+  border: none;
+  /* Remove input border */
+  outline: none;
+  /* Remove outline on focus */
+}
+
+/* Center the form */
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+
+/* Inside upload.css */
+
+/* Styles for the UploadStateCurrent component */
+.upload-state-current {
+  width: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  color: white;
+  opacity: 0.6;
+  gap: 10px;
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+}
+
+.pdf-icon {
+  width: 30px;
+}
+
+.file-name {
+  font-weight: bold;
+}
+
+.progress-bar {
+  flex-grow: 1;
+}
+
+.progress {
+  height: 10px;
+  background-color: #D5DD18;
+  /* Green color for progress bar */
+  border-radius: 5px;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  font-size: 12px;
+  gap: 7px;
+}
+
+.cancel-info {
+  display: flex;
+  align-items: center;
+}
+
+.state {
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.cancel-icon {
+  width: 30px;
+  cursor: pointer;
+}
+
+
+/*Upload State fail styles*/
+
+
+.upload-fail-message {
+  width: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  color: #FF2116;
+  opacity: 0.6;
+  gap: 10px;
+}
+
+.warning-icon {
+  width: 30px;
+}
+
+/* Upload State success styles */
+
+.success {
+  width: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  color: white;
+  opacity: 0.6;
+  gap: 10px;
+}
+
+.success-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.success .pdf-icon {
+  width: 30px;
+}
+
+.success .file-name {
+  font-weight: bold;
+}
+
+.success .file-size {
+  font-size: 12px;
+  /* Adjust font size as needed */
+}
+
+.delete-info {
+  display: flex;
+  align-items: center;
+}
+
+.success .delete-icon {
+  width: 30px;
+  cursor: pointer;
+}
+
+
+
+/* UploadState.css */
+.upload-canceled-message {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  opacity: 0.9;
+  gap: 10px;
+}
+
+.delete-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.delete-icon {
+  cursor: pointer;
+  width: 30px;
+}
