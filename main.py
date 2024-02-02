@@ -1,4 +1,4 @@
-from fastapi import FastAPI , BackgroundTasks , Query , HTTPException
+from fastapi import FastAPI , BackgroundTasks , HTTPException
 from elasticsearch import Elasticsearch , ElasticsearchException
 from elasticsearch.helpers import bulk
 from sqlalchemy import create_engine
@@ -7,6 +7,8 @@ import logging
 
 #retournant des réponses appropriées aux clients de l'API en cas d'erreur.
 logging.basicConfig(filename='app.log', level=logging.ERROR)
+index_name = "index_article"
+last_indexed_id = None  # Variable pour stocker le dernier ID indexé
 
 
 # créer une instance de FastAPI
@@ -19,8 +21,6 @@ except ElasticsearchException as e:
     logging.error(f"Erreur de connexion à Elasticsearch : {e}")  # enregistrer l'erreur 
     raise HTTPException(status_code=500, detail="Erreur de connexion à Elasticsearch")  # gérere un requette Http 
 
-index_name = "index_article"
-last_indexed_id = None  # Variable pour stocker le dernier ID indexé
 
 # Connect to MySQL
 try:
@@ -101,12 +101,14 @@ async def add_article(article, background_tasks: BackgroundTasks):
     # Code pour ajouter un nouvel article à la base de données
     #.....
 
-    background_tasks.add_task(index_new_articles)
+    background_tasks.add_task(index_new_articles) # appel au fonction qui index ce nouvel article dans ElasticSearch
     return {"message": "Article ajouté avec succès."}
 
 
 
-cached_results = []   # variable pour stocker les résultats actuelles de la recherche 
+# variable pour stocker les résultats actuelles de la recherche 
+cached_results = []   
+
 # chercher dans les documents de elasticSearch le mot clé dans query 
 def perform_elasticsearch_search(query: str):
 
@@ -140,15 +142,15 @@ def perform_elasticsearch_search(query: str):
 
 
 # Affecter une requette de recherche 
-@app.get("/search")
-async def search_articles(query: str = Query(..., title="Recherche")):
+@app.get("/search/{query}")
+async def search_articles(query: str):
     search_results = perform_elasticsearch_search(query)
     return {"results": search_results}
 
 
 # ***filtrer par auteur 
-@app.get("/filter_by_author")
-async def filter_by_author(author: str = Query(..., title="Author Name")):
+@app.get("/filter_by_author/{author}")
+async def filter_by_author(author: str):
     # Filtrer les résultats stockés dans cached_results par auteur
     filtered_results = [
         {
@@ -165,8 +167,8 @@ async def filter_by_author(author: str = Query(..., title="Author Name")):
     return filtered_results
 
 # ***filtrer les résultats de la recherche par institution 
-@app.get("/filter_by_institution")
-async def filter_by_institution(institution: str = Query(..., title="Institution Name")):
+@app.get("/filter_by_institution/{institution}")
+async def filter_by_institution(institution: str):
     # Filtrer les résultats stockés dans cached_results par institution
     filtered_results = [
         {
@@ -183,8 +185,8 @@ async def filter_by_institution(institution: str = Query(..., title="Institution
     return filtered_results
 
 # ***filtrer les résultats de la reccherche selon date de publication 
-@app.get("/filter_by_publication_date")
-async def filter_by_publication_date(publication_date: str = Query(..., title="Publication Date")):
+@app.get("/filter_by_publication_date/{publication_date}")
+async def filter_by_publication_date(publication_date: str):
     # Filtrer les résultats stockés dans cached_results par date de publication
     filtered_results = [
         {
@@ -202,8 +204,8 @@ async def filter_by_publication_date(publication_date: str = Query(..., title="P
 
 
 #***filtere les résultats de la recherche selon les mots clés 
-@app.get("/filter_by_keyword")
-async def filter_by_keyword(keyword: str = Query(..., title="Keyword")):
+@app.get("/filter_by_keyword/{keyword}")
+async def filter_by_keyword(keyword: str):
     # Filtrer les résultats stockés dans cached_results par mot-clé dans le champ texte_integral
     filtered_results = [
         {
