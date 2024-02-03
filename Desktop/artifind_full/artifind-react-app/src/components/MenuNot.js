@@ -5,9 +5,10 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { MdFavorite } from "react-icons/md";
 import { IoIosLogOut } from "react-icons/io";
 import ass1 from "../images/ass2.png";
+import { useNavigate } from 'react-router-dom';
 const MenuNot = () => {
     const [isLoginPageVisible, setLoginPageVisible] = useState(true);
-
+    let nav = useNavigate();
   const handleCloseButtonClick = () => {
     setLoginPageVisible(false);
   };
@@ -24,11 +25,11 @@ const MenuNot = () => {
             <div className='text-white font-medium flex flex-col py-20 px-6'>
                <div className='flex items-center py-2'>
                 <MdFavorite className='text-white' size={20} />
-                <button className='px-2'>Favoris</button>
+                <button onClick={() => nav('/Fav')} className='px-2'>Favoris</button>
                </div>
                <div className='flex items-center py-2'>
                <IoIosLogOut  className='text-white' size={20} />
-                <button className='px-2'>Déconnecter</button>
+                <button onClick={() => nav('/')} className='px-2'>Déconnecter</button>
                </div>
                <div className='flex items-center px-28 py-3'>
                 <img src={ass1} alt="ass1" />

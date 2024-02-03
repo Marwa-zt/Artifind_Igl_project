@@ -28,8 +28,8 @@ const Hero = () => {
                         <div className='py-24'></div>
                         <h1 className="md:text-7xl sm:text-6xl text-4xl font-bold md:py-4">Explore et apprends</h1>
                         
-                        <div class="relative flex justify-center items-center py-4">
-                                <div class=' absolute h-4 w-1/2 justify-center bg-[#24A393]/40'></div>
+                        <div className="relative flex justify-center items-center py-4">
+                                <div className=' absolute h-4 w-1/2 justify-center bg-[#24A393]/40'></div>
                                 <p className="absolute md:text-3xl sm:text-xl text-xs">Les articles scientifiques les plus populaires</p>
                                 
                         </div>

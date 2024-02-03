@@ -3,20 +3,33 @@ import { MdAlternateEmail } from "react-icons/md";
 import { FaLock , FaUserCheck,FaGoogle} from "react-icons/fa"; 
 import {AiOutlineClose} from 'react-icons/ai'
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
-  
+   
+
    const [email,setEmail] = useState('');
    const [pwd, setpwd] = useState('');
    const [nom,setnom] = useState('');
    const [prenm,setprenom] = useState('');
+   let nav = useNavigate();
+   const handleSubm = () =>{
+    nav('/Landingpage');
+   }
    const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await axios.post('http://127.0.0.1:8000/auth/', { email,nom,prenm,pwd});
+      const response = await axios.post('http://127.0.0.1:8000/auth/', {
+        email: email,
+        nom: nom,
+        prenom: prenm,
+        password: pwd,
+      }
+      , {
+        withCredentials: true,
+       });
       console.log('Data added successfully:', response.data);
-      // Add any additional logic or state updates as needed
+      nav('/Landingpage');
     } catch (error) {
       console.error('Error adding data:', error);
     }
@@ -34,18 +47,18 @@ const Signup = () => {
             
             <div className='mx-auto flex md:w-[50%] m-[5%] py-8 justify-center border-2 border-solid border-white border-opacity-20 backdrop-filter backdrop-blur  rounded-3xl transition ease-in-out duration-500 '>
              <AiOutlineClose className="absolute right-6 top-6 cursor-pointer" onClick={handleCloseButtonClick} size={20}/>
-             <form onSubmit={()=> handleSubmit} className="flex flex-col md:text-xl items-center" action="">
+             <form onSubmit={()=> handleSubm() } className="flex flex-col md:text-xl items-center" action="">
                   <h1 className="font-bold p-6 text-xl md:text-3xl">Sign up</h1>
                   <div className="input_box  flex py-4 border-b border-gray-300 justify-between items-center ">
                       <input className="border-none outline-none bg-transparent px-5" type="email" placeholder="Email" onChange={(e)=>setEmail(e.target.value)} value={email} required/>
                       <MdAlternateEmail />
                   </div>
                   <div className="input_box flex py-4 border-b border-gray-300 justify-between items-center">
-                      <input className="border-none outline-none bg-transparent px-5" type="name" placeholder="Nom d'utilisateur" onChange={(e)=>setnom(e.target.value)} value={nom} required/>
+                      <input className="border-none outline-none bg-transparent px-5" type="name" placeholder="Nom d'utilisateur" onChange={(e)=>setnom(e.target.value) && setprenom(e.target.value)} value={nom} required/>
                       <FaUserCheck/>
                   </div>
                   <div className="input_box flex py-4 border-b border-gray-300  text-gray-900  items-center">
-                      <input className="border-none outline-none bg-transparent px-5" type="password" placeholder="Mot de passe" onChange={(e)=>setpwd(e.target.value)} value={pwd}required/>
+                      <input className="border-none outline-none bg-transparent px-5 text-white" type="password" placeholder="Mot de passe" onChange={(e)=>setpwd(e.target.value)} value={pwd}required/>
                       <FaLock className="text-white"/>
                   </div>
                   <div className="justify-center flex text-white ">
