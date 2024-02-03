@@ -1,0 +1,88 @@
+/* moderatorsList.css */
+
+.moderators-list {
+  border-radius: 10px;
+  background-color: #d8d8d8;
+  margin: 50px;
+  overflow-y: auto;
+  max-height: 300px;
+}
+
+.titles-mods {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Added one column for Action */
+  color: black;
+  font-weight: bold;
+  padding: 10px;
+}
+
+
+
+.moderator {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #fff;
+  color: black;
+  overflow: hidden;
+}
+
+.moderator div {
+  white-space: nowrap; /* Empêche le texte de passer à la ligne */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Ajoute des points de suspension (...) à la fin du texte coupé */
+}
+
+
+.moderator .buttons {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
+.moderator .buttons button:hover {
+  background-color: #fff;
+}
+
+.moderator:hover {
+  background-color: #a1a1a1; /* Slight grey color on hover */
+}
+
+.moderator .buttons button {
+  width: 120px;
+  height: 40px;
+  padding: 4px 8px;
+  gap: 7px;
+  background-color: #b1b0b0; /* 25% opacity */
+  color: black;
+  display: flex;
+  align-items: center;
+  border: none;
+  font-family: 'poppins', 'sans serif';
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.moderator .buttons .buttonIcon {
+  width: 20px; /* Adjust the width of the modify icon */
+  height: 20px; /* Adjust the height of the modify icon */
+  margin-right: 7px; /* Add some spacing between the icon and text */
+}
+
+
+/* moderatorsList.css */
+
+/* ... (existing styles) */
+
+.separator {
+  height: 1px;
+  background-color: #000; /* Choose the color you want for the separator */
+}
+
+/* ... (existing styles) */
+
+
+
