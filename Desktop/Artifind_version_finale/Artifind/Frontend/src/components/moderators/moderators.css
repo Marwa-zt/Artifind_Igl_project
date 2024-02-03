@@ -1,0 +1,104 @@
+.moderators-container {
+  text-align: center;
+  margin: 30px 50px;
+}
+
+.centered-text {
+  margin-top: 20px;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.moderator-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.moderator-count {
+  display: flex;
+  align-items: center;
+}
+
+.rectangle {
+  width: 150px;
+  height: 54px;
+  background-color: #24A393;
+  border-radius: 40px;
+  gap: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  /* Text color */
+}
+
+
+.search-bar {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar img {
+  margin-right: 10px;
+}
+
+
+.add-mod-button {
+  width: 170px;
+  height: 54px;
+  background-color: #D5DD18;
+  padding: 0 20px;
+  border-radius: 10px;
+  color: #000;
+  /* Text color */
+  display: flex;
+  align-items: center;
+  border: none;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: 'poppins', 'sans serif';
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.add-mod-button img {
+  margin-right: 10px;
+}
+
+
+.search-bar {
+  width: 300px;
+  height: 40px;
+  padding: 0px 0px 0px 17px;
+  border-radius: 40px;
+  gap: 10px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+}
+
+.search-bar img {
+  margin-right: 10px;
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  border-radius: 40px;
+  padding: 10px;
+}
+
+/* Add this to your CSS file or style section */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Adjust the last value for transparency */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Adjust the z-index to make sure it's above other elements */
+}
