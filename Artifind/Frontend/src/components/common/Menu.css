@@ -1,0 +1,99 @@
+.menu {
+  width: 340px;
+  height: 320px;
+  border-radius: 50px;
+  background: #142832;
+  position: absolute;
+  top: 270%;
+  left: 72.6%;
+  transform: translate(0%, -50%);
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+}
+
+.menu.show {
+  opacity: 1;
+}
+
+.menu-header {
+  position: absolute;
+  top: 20px;
+  left: 260px;
+}
+
+.menu--icon {
+  width: 40px;
+}
+
+.menu-content {
+  padding: 20px 15px;
+}
+
+.menu--content {
+  padding: 20px 30px;
+  color: #ffffff;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+}
+
+.profile-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.profile-text {
+  width: 100px;
+  height: 40px;
+  top: 47px;
+  left: 177px;
+  font-family: 'Poppins';
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 42px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #ffffff;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.menu-text {
+  width: 250px;
+  font-family: 'Poppins';
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #ffffff;
+}
+
+.menu-item-icon {
+  width: 30px;
+  height: 30px;
+  /* Ajoutez d'autres styles d'icônes au besoin */
+}
+
+/* Menu.css */
+.menu-item {
+  text-decoration: none;
+  /* Remove underline */
+  color: inherit;
+  /* Inherit the text color from the parent */
+}
+
+.menu-item .menu-text:hover {
+  /* Optional: Change color on hover */
+  color: #D5DD18;
+}
